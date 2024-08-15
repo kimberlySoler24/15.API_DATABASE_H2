@@ -1,5 +1,6 @@
 package com.mindhub.todolist.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,6 +13,7 @@ public class Task {
     private String description;
     private TaskStatus status;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity users;
 

@@ -48,8 +48,8 @@ public class TaskServiceImpl implements TaskService {
         if (findTaskById == null){
             throw new Exception("No existe registro de esta tarea en base de datos");
         }
-
-        return new TaskResponse(findTaskById.getUsers(), findTaskById.getTitle(), findTaskById.getDescription(), findTaskById.getStatus());
+        return new TaskResponse(findTaskById.getUsers(), findTaskById.getTitle(),
+                findTaskById.getDescription(), findTaskById .getStatus());
     }
 
     @Override

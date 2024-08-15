@@ -30,7 +30,7 @@ public class TaskController {
 
 
     @GetMapping("/getTask/{id}")
-    public ResponseEntity<TaskResponse> getTask(@PathVariable("id") Long id) throws Exception{
+    public ResponseEntity<TaskResponse> getTask(@PathVariable("id") Long id){
         try {
             TaskResponse response = taskService.getTask(id);
             return new ResponseEntity<>(response, HttpStatus.OK);
