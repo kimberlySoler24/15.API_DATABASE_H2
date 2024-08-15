@@ -1,10 +1,7 @@
 package com.mindhub.todolist.models;
 
-import com.mindhub.todolist.dtos.TaskStatus;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
 @Entity
 public class Task {
 
@@ -14,18 +11,17 @@ public class Task {
     private String title;
     private String description;
     private TaskStatus status;
-    @OneToMany(mappedBy = "task")
-    private Set<UserToDoList> users = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private UserList users;
 
     public Task() {
     }
 
-    public Task(Long id, String title, String description, TaskStatus status, Set<UserToDoList> users) {
-        this.id = id;
+    public Task(String title, String description, TaskStatus status) {
         this.title = title;
         this.description = description;
         this.status = status;
-        this.users = users;
     }
 
     public Long getId() {
@@ -44,10 +40,6 @@ public class Task {
         return status;
     }
 
-    public Set<UserToDoList> getUsers() {
-        return users;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -64,7 +56,15 @@ public class Task {
         this.status = status;
     }
 
-    public void setUser(Set<UserToDoList> users) {
+    public UserList getUser() {
+        return users;
+    }
+
+    public UserList getUsers() {
+        return users;
+    }
+
+    public void setUsers(UserList usersList) {
         this.users = users;
     }
 }
