@@ -11,6 +11,7 @@ import com.mindhub.todolist.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -78,6 +79,11 @@ public class TaskServiceImpl implements TaskService {
         }
         taskRepository.delete(findTaskById.get());
         return "Eliminación de tarea exitosa";
+    }
+
+    @Override
+    public List<Task> getAllTasks() throws Exception {
+        return taskRepository.findAll();
     }
 
 
