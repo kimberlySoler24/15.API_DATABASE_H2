@@ -3,7 +3,6 @@ package com.mindhub.todolist.services;
 import com.mindhub.todolist.dtos.TaskRequest;
 import com.mindhub.todolist.dtos.TaskResponse;
 import com.mindhub.todolist.interfaces.TaskService;
-import com.mindhub.todolist.mappers.TaskMapper;
 import com.mindhub.todolist.models.Task;
 import com.mindhub.todolist.models.TaskStatus;
 import com.mindhub.todolist.models.UserEntity;
@@ -25,16 +24,21 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskResponse createTask(TaskRequest request) throws Exception{
-        if (request.getStatus() != TaskStatus.PENDING || request.getStatus() != TaskStatus.IN_PROGRESS
-                || request.getStatus() != TaskStatus.COMPLETED) {
+        if (request.getStatus() != TaskStatus.PENDING
+                && request.getStatus() != TaskStatus.IN_PROGRESS
+                && request.getStatus() != TaskStatus.COMPLETED) {
             throw new Exception("El estado asignado no corresponde a los establecidos");
         }
-        Task createATask = TaskMapper.TaskRequestToTask(request);
+        Task newTask = new Task();
+        newTask.setDescription(request.getDescription());
+        newTask.setStatus(request.getStatus());
+        newTask.setTitle(request.getTitle());
         UserEntity findUserById = userRepository.findById(request.getUserId()).orElse(null);
         if (findUserById == null) throw new Exception("No existe usuario!!");
-        taskRepository.save(createATask);
+        findUserById.addTask(newTask);
+        taskRepository.save(newTask);
 
-        return new TaskResponse(findUserById, createATask.getTitle(), createATask.getDescription(), createATask.getStatus());
+        return new TaskResponse(findUserById, newTask.getTitle(), newTask.getDescription(), newTask.getStatus());
     }
 
     @Override
@@ -54,10 +58,12 @@ public class TaskServiceImpl implements TaskService {
             throw new Exception("No existe registro de esta tarea en base de datos");
         }
         UserEntity findUser = userRepository.findById(request.getUserId()).orElse(null);
+        if (findUser == null) throw new Exception("No existe usuario!!");
         Task updateATask = findTaskById.get();
         updateATask.setTitle(request.getTitle());
         updateATask.setDescription(request.getDescription());
         updateATask.setUsers(findUser);
+        findUser.addTask(updateATask);
         taskRepository.save(updateATask);
 
         return new TaskResponse(updateATask.getUsers(), updateATask.getTitle(), updateATask.getDescription()

@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String DeleteUser(Long id) throws Exception {
+    public String deleteUser(Long id) throws Exception {
         UserEntity FindUser = userRepository.findById(id).orElse(null);
         if (FindUser == null){
             throw new Exception("Usuario no encontrado: " + id);
