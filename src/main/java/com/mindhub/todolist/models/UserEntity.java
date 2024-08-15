@@ -6,7 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class UserList {
+@Table(name = "users")
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,15 +18,15 @@ public class UserList {
 
     private String email;
 
-    @OneToMany(mappedBy = "usersList", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private Set<Task> tasks = new HashSet<>();
 
 
 
-    public UserList() {
+    public UserEntity() {
     }
 
-    public UserList(String username, String password, String email) {
+    public UserEntity(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;

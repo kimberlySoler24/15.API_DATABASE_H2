@@ -2,16 +2,16 @@ package com.mindhub.todolist.dtos;
 
 import java.util.Objects;
 
-public class UserRequest {
+public class UserDto {
 
     private String username;
     private String password;
     private String email;
 
-    public UserRequest() {
+    public UserDto() {
     }
 
-    public UserRequest(String username, String password, String email) {
+    public UserDto(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -45,8 +45,8 @@ public class UserRequest {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserRequest userRequest = (UserRequest) o;
-        return Objects.equals(username, userRequest.username) && Objects.equals(password, userRequest.password) && Objects.equals(email, userRequest.email);
+        UserDto userDto = (UserDto) o;
+        return Objects.equals(username, userDto.username) && Objects.equals(password, userDto.password) && Objects.equals(email, userDto.email);
     }
 
     @Override

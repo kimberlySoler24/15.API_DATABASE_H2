@@ -13,7 +13,7 @@ public class Task {
     private TaskStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private UserList users;
+    private UserEntity users;
 
     public Task() {
     }
@@ -28,43 +28,39 @@ public class Task {
         return id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public TaskStatus getStatus() {
-        return status;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public TaskStatus getStatus() {
+        return status;
     }
 
     public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
-    public UserList getUser() {
+    public UserEntity getUsers() {
         return users;
     }
 
-    public UserList getUsers() {
-        return users;
-    }
-
-    public void setUsers(UserList usersList) {
+    public void setUsers(UserEntity users) {
         this.users = users;
     }
 }

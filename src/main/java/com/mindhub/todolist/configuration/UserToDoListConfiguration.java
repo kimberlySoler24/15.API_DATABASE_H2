@@ -2,9 +2,9 @@ package com.mindhub.todolist.configuration;
 
 import com.mindhub.todolist.models.TaskStatus;
 import com.mindhub.todolist.models.Task;
-import com.mindhub.todolist.models.UserList;
+import com.mindhub.todolist.models.UserEntity;
 import com.mindhub.todolist.repositories.TaskRepository;
-import com.mindhub.todolist.repositories.UserToDoListRepository;
+import com.mindhub.todolist.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 public class UserToDoListConfiguration {
 
     @Autowired
-    UserToDoListRepository userToDoListRepository;
+    UserRepository userRepository;
 
     @Autowired
     TaskRepository taskRepository;
@@ -23,8 +23,8 @@ public class UserToDoListConfiguration {
     public CommandLineRunner initData() {
         return args -> {
 
-            UserList user = new UserList("prueba", "12345", "prueba@gmail.com");
-            userToDoListRepository.save(user);
+            UserEntity user = new UserEntity("prueba", "12345", "prueba@gmail.com");
+            userRepository.save(user);
 
             Task task = new Task("Matematicas", "tarea de matemáticas", TaskStatus.IN_PROGRESS);
             user.addTask(task);
