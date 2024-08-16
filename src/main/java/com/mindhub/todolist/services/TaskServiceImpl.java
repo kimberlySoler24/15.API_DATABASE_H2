@@ -18,10 +18,10 @@ import java.util.Optional;
 public class TaskServiceImpl implements TaskService {
 
     @Autowired
-    TaskRepository taskRepository;
+    private TaskRepository taskRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     public TaskResponse createTask(TaskRequest request) throws Exception{
