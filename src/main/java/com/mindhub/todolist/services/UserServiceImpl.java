@@ -8,6 +8,7 @@ import com.mindhub.todolist.models.UserEntity;
 import com.mindhub.todolist.repositories.TaskRepository;
 import com.mindhub.todolist.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
     @Autowired
-    TaskRepository taskRepository;
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public UserDto createUser(UserDto request) {
         UserEntity createAUser = UserMapper.userDtoToUser(request);
@@ -59,5 +61,16 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
 
         return "Eliminación de usuario exitosa";
+    }
+
+    @Override
+    public void registerUser(UserDto registrationDto) throws Exception {
+        if (userRepository.findByEmail(registrationDto.getEmail()).isPresent())
+            throw new RuntimeException("Username already exists");
+
+        UserEntity user = new UserEntity();
+        user.setUsername(registrationDto.getUsername());
+        user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
+        userRepository.save(user);
     }
 }

@@ -2,6 +2,7 @@ package com.mindhub.todolist.controllers;
 
 import com.mindhub.todolist.dtos.UserDto;
 import com.mindhub.todolist.interfaces.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,7 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteUser/{id}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) throws Exception{
         try {
             String response = userService.deleteUser(id);
@@ -53,6 +55,4 @@ public class UserController {
             return new ResponseEntity<> (HttpStatus.BAD_REQUEST);
         }
     }
-
-
-}
+    }
