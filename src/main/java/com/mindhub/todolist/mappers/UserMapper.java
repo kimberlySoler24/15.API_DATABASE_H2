@@ -12,7 +12,7 @@ public class UserMapper {
 
     public static UserDto userToUserDto(UserEntity userEntity){
 
-        return new UserDto(userEntity.getUsername(), userEntity.getPassword(), userEntity.getEmail());
+        return new UserDto(userEntity.getUsername(), userEntity.getPassword(), userEntity.getEmail(), userEntity.getRol());
     }
 
 }

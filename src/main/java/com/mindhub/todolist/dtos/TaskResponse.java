@@ -8,26 +8,16 @@ import java.util.Objects;
 
 public class TaskResponse {
 
-    private UserEntity user;
     private String title;
     private String description;
     private TaskStatus status;
     public TaskResponse() {
     }
 
-    public TaskResponse(UserEntity user, String title, String description, TaskStatus status) {
-        this.user = user;
+    public TaskResponse( String title, String description, TaskStatus status) {
         this.title = title;
         this.description = description;
         this.status = status;
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
     }
 
     public String getTitle() {
@@ -59,18 +49,17 @@ public class TaskResponse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TaskResponse that = (TaskResponse) o;
-        return Objects.equals(user, that.user) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && status == that.status;
+        return Objects.equals(title, that.title) && Objects.equals(description, that.description) && status == that.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user, title, description, status);
+        return Objects.hash(title, description, status);
     }
 
     @Override
     public String toString() {
         return "TaskResponse{" +
-                "user=" + user +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status +

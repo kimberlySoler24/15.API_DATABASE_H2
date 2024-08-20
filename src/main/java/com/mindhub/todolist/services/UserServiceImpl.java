@@ -1,11 +1,9 @@
 package com.mindhub.todolist.services;
 
-import com.mindhub.todolist.dtos.TaskRequest;
 import com.mindhub.todolist.dtos.UserDto;
 import com.mindhub.todolist.interfaces.UserService;
 import com.mindhub.todolist.mappers.UserMapper;
 import com.mindhub.todolist.models.UserEntity;
-import com.mindhub.todolist.repositories.TaskRepository;
 import com.mindhub.todolist.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -69,7 +67,9 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Username already exists");
 
         UserEntity user = new UserEntity();
+        user.setEmail(registrationDto.getEmail());
         user.setUsername(registrationDto.getUsername());
+        user.setRol(registrationDto.getRol());
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         userRepository.save(user);
     }

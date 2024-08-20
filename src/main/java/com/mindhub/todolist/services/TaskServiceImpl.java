@@ -39,7 +39,7 @@ public class TaskServiceImpl implements TaskService {
         findUserById.addTask(newTask);
         taskRepository.save(newTask);
 
-        return new TaskResponse(findUserById, newTask.getTitle(), newTask.getDescription(), newTask.getStatus());
+        return new TaskResponse(newTask.getTitle(), newTask.getDescription(), newTask.getStatus());
     }
 
     @Override
@@ -48,7 +48,7 @@ public class TaskServiceImpl implements TaskService {
         if (findTaskById == null){
             throw new Exception("No existe registro de esta tarea en base de datos");
         }
-        return new TaskResponse(findTaskById.getUsers(), findTaskById.getTitle(),
+        return new TaskResponse(findTaskById.getTitle(),
                 findTaskById.getDescription(), findTaskById .getStatus());
     }
 
@@ -67,7 +67,7 @@ public class TaskServiceImpl implements TaskService {
         findUser.addTask(updateATask);
         taskRepository.save(updateATask);
 
-        return new TaskResponse(updateATask.getUsers(), updateATask.getTitle(), updateATask.getDescription()
+        return new TaskResponse(updateATask.getTitle(), updateATask.getDescription()
                 , updateATask.getStatus());
     }
 
