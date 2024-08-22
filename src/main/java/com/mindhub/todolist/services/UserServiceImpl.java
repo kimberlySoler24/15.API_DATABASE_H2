@@ -1,5 +1,7 @@
 package com.mindhub.todolist.services;
 
+import com.mindhub.todolist.Exceptions.EmailAlreadyExistsException;
+import com.mindhub.todolist.Exceptions.InvalidEmailException;
 import com.mindhub.todolist.dtos.UserDto;
 import com.mindhub.todolist.interfaces.UserService;
 import com.mindhub.todolist.mappers.UserMapper;
@@ -62,15 +64,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerUser(UserDto registrationDto) throws Exception {
+    public void registerUser(UserDto registrationDto) {
         if (userRepository.findByEmail(registrationDto.getEmail()).isPresent())
-            throw new RuntimeException("Username already exists");
+            throw new EmailAlreadyExistsException("Username already exists" + registrationDto.getUsername());
 
         UserEntity user = new UserEntity();
-        user.setEmail(registrationDto.getEmail());
+        if (validateEmail(registrationDto.getEmail())){
+            user.setEmail(registrationDto.getEmail());
+        } else {
+            throw new InvalidEmailException("Invalid Email" + registrationDto.getEmail());
+        }
         user.setUsername(registrationDto.getUsername());
         user.setRol(registrationDto.getRol());
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         userRepository.save(user);
+    }
+
+
+    public boolean validateEmail(String email){
+        int atIndex = email.indexOf('@');
+        if (email.isEmpty() || email.contains(" ") || atIndex == -1
+                || email.lastIndexOf('@') != atIndex) {
+            return false;
+        }
+        int dotIndex = email.indexOf('.', atIndex);
+        if (dotIndex == -1 || dotIndex == email.length() - 1) {
+            return false;
+        }
+        return atIndex > 0 && dotIndex - atIndex > 1;
     }
 }

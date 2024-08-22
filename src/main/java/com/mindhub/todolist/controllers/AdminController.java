@@ -39,7 +39,7 @@ public class AdminController {
             UserDto response = userService.getUser(id);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e){
-            return new ResponseEntity<> (HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<> (HttpStatus.UNAUTHORIZED);
         }
     }
 

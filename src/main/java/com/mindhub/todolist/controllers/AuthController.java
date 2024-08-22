@@ -1,10 +1,12 @@
 package com.mindhub.todolist.controllers;
 
+import com.mindhub.todolist.Exceptions.EmailAlreadyExistsException;
 import com.mindhub.todolist.configuration.JwtUtils;
 import com.mindhub.todolist.dtos.UserDto;
 import com.mindhub.todolist.dtos.UserLoginDto;
 import com.mindhub.todolist.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,9 +29,13 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody UserDto registrationDto) throws Exception {
-        userService.registerUser(registrationDto);
-        return ResponseEntity.ok("User registered successfully");
+    public ResponseEntity<String> registerUser(@RequestBody UserDto registrationDto) {
+        try {
+            userService.registerUser(registrationDto);
+            return ResponseEntity.ok("User registered successfully");
+        } catch (EmailAlreadyExistsException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/login")
@@ -40,7 +46,6 @@ public class AuthController {
                         loginRequest.getPassword()
                 )
         );
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtil.generateClaims(authentication.getName());
         return ResponseEntity.ok(jwt);
